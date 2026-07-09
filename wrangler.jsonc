@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agent-email",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    // The domain your catch-all Email Routing rule delivers from. Used to build
+    // registered addresses (create_address returns local-part@INBOX_DOMAIN), so
+    // set this to the domain you route mail for before deploying.
+    "INBOX_DOMAIN": "example.com"
+  },
+  "durable_objects": {
+    "bindings": [
+      // Singleton store for received emails (SQLite-backed).
+      { "name": "MAILBOX", "class_name": "MailboxDO" },
+      // The MCP server (McpAgent is itself a Durable Object).
+      { "name": "INBOX_MCP", "class_name": "InboxMCP" }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["MailboxDO", "InboxMCP"]
+    }
+  ]
+  // Secret (set with `wrangler secret put MCP_TOKEN`) gates the /mcp endpoint.
+  // Email Routing is configured out-of-band (dashboard or `wrangler email routing`),
+  // not here — a catch-all rule points *@inbox.<yourdomain> at this Worker.
+}

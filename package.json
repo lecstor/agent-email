@@ -1,0 +1,23 @@
+{
+  "name": "agent-email",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A headless, disposable email inbox exposed over MCP for an AI agent to drive (signup confirmations, onboarding-flow testing).",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "agents": "^0.2.0",
+    "@modelcontextprotocol/sdk": "1.23.0",
+    "postal-mime": "^2.4.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "wrangler": "^4.0.0"
+  }
+}
